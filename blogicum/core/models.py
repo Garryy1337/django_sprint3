@@ -9,3 +9,11 @@ class PublishedModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class СreatedModel(models.Model):
+    """Абстрактная модель. Добавляет Время created_at."""
+    created_at = models.DateTimeField('Добавлено')
+     
+    class Meta:
+        abstract = True        

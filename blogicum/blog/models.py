@@ -1,23 +1,18 @@
 from django.db import models
-
-from core.models import PublishedModel
-
+from core.models import PublishedModel, СreatedModel
 from django.contrib.auth import get_user_model
-
 from django.utils import timezone
 
 User = get_user_model()
 
 
-class Category(PublishedModel):
+class Category(PublishedModel, СreatedModel):
     title = models.CharField('Заголовок', max_length=256)
     description = models.TextField('Описание')
     slug = models.SlugField('Идентификатор', unique=True, help_text='''
     Идентификатор страницы для URL;
     разрешены символы латиницы, цифры, дефис и подчёркивание.''')
     
-    created_at = models.DateTimeField('Добавлено')
-
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'Категории'
@@ -26,23 +21,22 @@ class Category(PublishedModel):
         return self.title
 
 
-class Location(PublishedModel):
+class Location(PublishedModel, СreatedModel):
     name = models.CharField('Название места', max_length=256,)
-    created_at = models.DateTimeField('Добавлено', auto_now_add=True)
 
     class Meta:
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
 
 
-class Post(PublishedModel):
+class Post(PublishedModel, СreatedModel):
     title = models.CharField('Название', max_length=256)
     text = models.TextField('Текст')
     pub_date = models.DateTimeField(
         'Дата и время публикации',
         default=timezone.now,
         help_text='''Если установить дату и время в будущем
-          — можно делать отложенные публикации.''')
+         — можно делать отложенные публикации.''')
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -66,7 +60,6 @@ class Post(PublishedModel):
         verbose_name='Категории',
         null=True,
         blank=True,)
-    created_at = models.DateTimeField('Добавлено', auto_now_add=True)
 
     class Meta:
         verbose_name = 'публикация'
