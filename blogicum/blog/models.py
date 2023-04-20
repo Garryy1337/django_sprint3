@@ -1,12 +1,14 @@
-from django.db import models
-from core.models import PublishedModel, СreatedModel
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+
+from django.db import models
+from core.models import BaseModel
+
 
 User = get_user_model()
 
 
-class Category(PublishedModel, СreatedModel):
+class Category(BaseModel):
     title = models.CharField('Заголовок', max_length=256)
     description = models.TextField('Описание')
     slug = models.SlugField('Идентификатор', unique=True, help_text='''
@@ -21,7 +23,7 @@ class Category(PublishedModel, СreatedModel):
         return self.title
 
 
-class Location(PublishedModel, СreatedModel):
+class Location(BaseModel):
     name = models.CharField('Название места', max_length=256,)
 
     class Meta:
@@ -29,7 +31,7 @@ class Location(PublishedModel, СreatedModel):
         verbose_name_plural = 'Местоположения'
 
 
-class Post(PublishedModel, СreatedModel):
+class Post(BaseModel):
     title = models.CharField('Название', max_length=256)
     text = models.TextField('Текст')
     pub_date = models.DateTimeField(
